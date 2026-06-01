@@ -5,14 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>文化祭 電子マップ</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/html5-qrcode"></script>
 </head>
 <body>
     <header>
         <h1>文化祭マップ</h1>
         <p id="current-location-text">現在地を読み込んでいます...</p>
+        
+        <button id="scan-start-btn">QRコードを読み取る</button>
     </header>
 
     <main>
+        <div id="qr-reader-container">
+            <div id="qr-reader"></div>
+            <button id="scan-stop-btn" style="display: none;">カメラを閉じる</button>
+        </div>
+
         <div class="map-container">
             <img src="images/map.png" alt="学校の地図" class="school-map">
             <img src="images/pin.png" alt="現在地" class="pin" id="location-pin">

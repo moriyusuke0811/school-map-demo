@@ -26,3 +26,27 @@ body {
     display: none; /* 初期状態では隠しておく */
     transform: translate(-50%, -100%); /* ピンの先端を座標に合わせる */
 }
+/* ★追加：ボタンのデザイン */
+#scan-start-btn, #scan-stop-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 0;
+}
+#scan-stop-btn {
+    background-color: #dc3545; /* 閉じるボタンは赤色に */
+}
+
+/* ★追加：カメラ表示エリアの調整 */
+#qr-reader-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+#qr-reader {
+    border: none !important; /* ライブラリのデフォルト枠線を消す */
+}
