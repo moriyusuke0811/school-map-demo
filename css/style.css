@@ -1,0 +1,28 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: #f4f4f4;
+}
+
+.map-container {
+    position: relative; /* ピンをマップ上に重ねるための基準 */
+    display: inline-block;
+    max-width: 100%;
+    margin-top: 20px;
+}
+
+.school-map {
+    width: 100%;
+    max-width: 600px; /* スマホで見やすいサイズに */
+    height: auto;
+}
+
+.pin {
+    position: absolute;
+    width: 40px; /* ピンのサイズ */
+    height: 40px;
+    display: none; /* 初期状態では隠しておく */
+    transform: translate(-50%, -100%); /* ピンの先端を座標に合わせる */
+}
