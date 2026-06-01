@@ -1,0 +1,11 @@
+アプリを GitHub Pages に公開（例: https://username.github.io/building-map/）したら、各場所に貼るQRコードには以下のURLを登録します。
+
+1階の受付に貼るQR: .../index.html?place=1f-room1
+
+1階の階段に貼るQR: .../index.html?place=1f-stairs
+
+2階の第二会議室に貼るQR: .../index.html?place=2f-room2
+
+3階のパソコン室に貼るQR: .../index.html?place=3f-room1
+
+このようにURLの末尾（?place= 以降）を変えるだけで、同じ1つのWebアプリ（HTMLファイル）のまま、ピンの位置だけを自動で切り替えることができます。
