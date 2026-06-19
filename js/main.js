@@ -1,4 +1,4 @@
-// ビルの場所データ（前回と同じ）
+// ビルの場所データ（変更なし）
 const locations = {
     "1f-room1":  { name: "1階：受付・事務室", x: 25, y: 85 },
     "1f-room2":  { name: "1階：休憩ラウンジ", x: 75, y: 85 },
@@ -11,14 +11,8 @@ const locations = {
     "3f-stairs": { name: "3階：階段",         x: 50, y: 8 }
 };
 
-function getPlaceFromURL() {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('place');
-}
-
-// ページ読み込み時の処理
-window.onload = function() {
-    const placeId = getPlaceFromURL();
+// ★追加：画面の表示（ピンと文字）を更新する専用の関数
+function updateLocation(placeId) {
     const pin = document.getElementById('location-pin');
     const text = document.getElementById('current-location-text');
 
@@ -29,28 +23,45 @@ window.onload = function() {
         pin.style.display = 'block';
         text.textContent = `現在地 📍 ${target.name}`;
     } else {
-        text.textContent = "館内のQRコードを読み取ると、現在地が表示されます。";
+        // 登録されていない文字列を読み込んだ場合のエラー処理
+        text.textContent = "未登録のQRコードです。もう一度お試しください。";
+    }
+}
+
+// ページ読み込み時の処理
+window.onload = function() {
+    // 埋め込み時のために、URLにパラメータがある場合も一応対応しておく
+    const urlParams = new URLSearchParams(window.location.search);
+    const placeId = urlParams.get('place');
+    
+    if (placeId) {
+        updateLocation(placeId);
+    } else {
+        document.getElementById('current-location-text').textContent = "館内のQRコードを読み取ると、現在地が表示されます。";
     }
 
-    // ★追加：QRコードリーダーの初期化設定
+    // QRコードリーダーの初期化設定
     initQRScanner();
 };
 
-// ★追加：QRコードリーダーの処理
+// QRコードリーダーの処理
 function initQRScanner() {
     const html5QrCode = new Html5Qrcode("qr-reader");
     const startBtn = document.getElementById("scan-start-btn");
     const stopBtn = document.getElementById("scan-stop-btn");
 
-    // QRコードの読み取りに成功したときの処理
+    // ★変更：QRコードの読み取りに成功したときの処理
     const qrCodeSuccessCallback = (decodedText, decodedResult) => {
         // スキャンを止めてカメラをオフにする
         html5QrCode.stop().then(() => {
-            // 読み取ったURL（例: https://.../?place=1f-room1）に画面を切り替える
-            window.location.href = decodedText;
+            startBtn.style.display = "inline-block";
+            stopBtn.style.display = "none";
+            
+            // ★読み取った文字列（例: "1f-room1"）を使って画面を更新！
+            updateLocation(decodedText);
+            
         }).catch((err) => {
             console.error("カメラの停止に失敗しました:", err);
-            window.location.href = decodedText;
         });
     };
 
@@ -58,7 +69,6 @@ function initQRScanner() {
 
     // 「QRコードを読み取る」ボタンを押したとき
     startBtn.addEventListener("click", () => {
-        // 背面カメラ（environment）を指定して起動
         html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback)
         .then(() => {
             startBtn.style.display = "none";
